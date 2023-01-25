@@ -2,7 +2,7 @@ SAE Initiation au développement :
 
 AMOUCHE Chamsedine TP Alpha et LAHLOUH Elias TP Beta.
 
-Rendu final :
+Rendu final.
 
 Le fichier UPEMTK,les images ainsi que le/les fichier txt 
 pour les bonus sont dans le dossier.
@@ -37,11 +37,7 @@ Problèmes rencontrées :
 	- Problème si adversaire clique dans une intersection de 2 boules (si le joueur bleu a 2 boules qui s'intersectionnent et que le joueur rouge clique
 	sur l'intersection, alors les 2 boules ne sont pas sub-diviser). En effet, malgré un temps non négligeable consacré à ce problème, nous n'avons pas encore trouver la solution.
 	- Lors de l'implémentation de variantes et des bonus nous avons dû réorganiser notre code avec des changements considérables.
-
-Informations pratiques :
-  - Pour la variante score, appuyer sur la touche 's'.
-  - Pour la variante terminaison, appuyer sur la touche 't'. Faisable qu'une fois par partie !
-  - Pour le bonus Pause et Sauvegarde, appuyer sur la touche 'p'.
+	- 
 
 Autres :
 	Malgré les soucis rencontrées, le jeu fonctionne très bien.
