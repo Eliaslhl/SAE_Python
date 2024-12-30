@@ -559,63 +559,34 @@ def Dynamique(EmplacementsJoueur1, EmplacementsJoueur2, couleur_joueur1, couleur
         mettre_a_jour_boules(EmplacementsJoueur2, EmplacementsJoueur1, couleur_joueur2, Boules_rouge)
 
 def Accueil(LargeurFenetre):
-    """
-    Permet de creer l'écran d'accueil du jeu.
-    
-    Arguments :
-        LargeurFenetre : Largeur de la fenêtre de jeu
-    """
-    polygone([(400, 480), (400, 520), (425, 500)], remplissage='White')
-    polygone([(110, 480), (110, 520), (85, 500)], remplissage='White')
+    """ Permet de creer l'écran d'accueil du jeu. """
+    def dessiner_polygones():
+        """Dessine les flèches sur l'écran."""
+        polygone([(400, 480), (400, 520), (425, 500)], remplissage='White')
+        polygone([(110, 480), (110, 520), (85, 500)], remplissage='White')
+        polygone([(590, 480), (590, 520), (565, 500)], remplissage='White')
+        polygone([(895, 480), (895, 520), (920, 500)], remplissage='White')
 
-    polygone([(590, 480), (590, 520), (565, 500)], remplissage='White')
-    polygone([(895, 480), (895, 520), (920, 500)], remplissage='White')
+    def dessiner_fond():
+        """Dessine l'image de fond de l'écran."""
+        image(0, 0, "el.gif", ancrage="nw")
 
-    lst_col = [cname for cname, hex in matplotlib.colors.cnames.items() if cname != "rebeccapurple"]
+    def dessiner_ecran(i, j):
+        """Dessine l'écran principal avec les couleurs actuelles."""
+        efface_tout()
+        dessiner_fond()
+        dessiner_polygones()
+        texte(LargeurFenetre / 2 - 50, 100, "Bataille d             ",
+              taille=50, ancrage="center", couleur=lst_col[i])
+        texte(LargeurFenetre / 2 - 50, 100, "               e Boules",
+              taille=50, ancrage="center", couleur=lst_col[j])
+        cercle(250, 500, 70, remplissage=str(lst_col[i]))
+        cercle(750, 500, 70, remplissage=str(lst_col[j]))
+        cercle(500, 350, 70, remplissage='#27cc75')
+        texte(500, 350, 'Continuer', ancrage='center', police="Purisa", taille=18, tag='')
 
-    i = 9
-    j = 119
-
-    texte(LargeurFenetre / 2 - 50, 100, "Bataille d             ",taille=50, ancrage="center", couleur=lst_col[i])
-    texte(LargeurFenetre / 2 - 50, 100, "               e Boules",taille=50, ancrage="center", couleur=lst_col[j])
-    cercle(250, 500, 70, remplissage=str(lst_col[i]))
-    cercle(750, 500, 70, remplissage=str(lst_col[j]))
-    cercle(500, 350, 70, remplissage='#27cc75')
-    texte(500, 350, 'Continuer', ancrage='center', police="Purisa", taille=18,tag='')
-    while True:
-        x1, y1, type_clique = attente_clic()
-        if verifierEmplacementClic((x1, y1), 0, 400, 480, 425, 520):
-            if i == len(lst_col) - 1:
-                i = 0
-            else:
-                i += 1
-
-        if verifierEmplacementClic((x1, y1), 0, 85, 480, 110, 520):
-            if i == 0:
-                i = len(lst_col) - 1
-            else:
-                i -= 1
-
-        if verifierEmplacementClic((x1, y1), 0, 565, 480, 590, 520):
-            if j == len(lst_col) - 1:
-                j = 0
-            else:
-                j += 1
-
-        if verifierEmplacementClic((x1, y1), 0, 895, 480, 920, 520):
-            if j == 0:
-                j = len(lst_col) - 1
-            else:
-                j -= 1
-        if verifier_clic_boule2((x1,y1), 70, 500, 350):
-            efface_tout()
-            texte(LargeurFenetre / 2 - 50, 100, "Bataille d             ",
-                  taille=50, ancrage="center", couleur=lst_col[i])
-            texte(LargeurFenetre / 2 - 50, 100, "               e Boules",
-                  taille=50, ancrage="center", couleur=lst_col[j])
-            return lst_col[i], lst_col[j]
-            break
-
+    def verifier_indices(i, j):
+        """Corrige les indices pour qu'ils ne soient pas identiques."""
         if i == j:
             if i == 0:
                 j = len(lst_col) - 1
@@ -623,14 +594,45 @@ def Accueil(LargeurFenetre):
                 j = len(lst_col) - 2
             else:
                 i += 1
-        cercle(250, 500, 70, remplissage=str(lst_col[i]))
-        texte(LargeurFenetre / 2 - 50, 100, "Bataille d             ",
-              taille=50, ancrage="center", couleur=lst_col[i])
-        cercle(750, 500, 70, remplissage=str(lst_col[j]))
-        texte(LargeurFenetre / 2 - 50, 100, "               e Boules",
-              taille=50, ancrage="center", couleur=lst_col[j])
+        return i, j
 
+    def mettre_a_jour_indices(x, y, i, j):
+        """Met à jour les indices de couleur en fonction des clics."""
+        if verifierEmplacementClic((x, y), 0, 400, 480, 425, 520):
+            i = (i + 1) % len(lst_col)
+        elif verifierEmplacementClic((x, y), 0, 85, 480, 110, 520):
+            i = (i - 1) % len(lst_col)
+        elif verifierEmplacementClic((x, y), 0, 565, 480, 590, 520):
+            j = (j + 1) % len(lst_col)
+        elif verifierEmplacementClic((x, y), 0, 895, 480, 920, 520):
+            j = (j - 1) % len(lst_col)
+        return i, j
+    
+    # Liste des couleurs disponibles
+    lst_col = [cname for cname, hex in matplotlib.colors.cnames.items() if cname != "rebeccapurple"]
 
+    # Indices de couleur initiaux
+    i, j = 9, 119
+
+    # Dessiner l'écran initial
+    dessiner_ecran(i, j)
+
+    while True:
+        x, y, type_clique = attente_clic()
+
+        if verifier_clic_boule2((x, y), 70, 500, 350):
+            efface_tout()
+            dessiner_fond()
+            texte(LargeurFenetre / 2 - 50, 100, "Bataille d             ",
+                  taille=50, ancrage="center", couleur=lst_col[i])
+            texte(LargeurFenetre / 2 - 50, 100, "               e Boules",
+                  taille=50, ancrage="center", couleur=lst_col[j])
+            return lst_col[i], lst_col[j]
+
+        i, j = mettre_a_jour_indices(x, y, i, j)
+        i, j = verifier_indices(i, j)
+        dessiner_ecran(i, j)
+        
 def entrer_pseudo(joueur, texte_prompt):
     """Fonction permettant à un joueur d'entrer un pseudo."""
     efface(texte_prompt)
@@ -664,7 +666,6 @@ def entrer_pseudo(joueur, texte_prompt):
 
     return pseudo
 
-
 def pseudo():
     """Fonction permettant aux utilisateurs de rentrer leur pseudo pour jouer."""
     texte_pseudo1 = texte(110, 410, "Joueur1, veuillez entrer un pseudo (max 25 lettres):", couleur="black", taille=18)
@@ -674,8 +675,6 @@ def pseudo():
     pseudo2 = entrer_pseudo(2, "Joueur2, veuillez entrer un pseudo (max 25 lettres):")
 
     return (pseudo1, pseudo2)
-
-    
 
 def afficher_bouton_retour():
     """Affiche un bouton de retour."""
