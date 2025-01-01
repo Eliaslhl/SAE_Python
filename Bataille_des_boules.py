@@ -42,90 +42,43 @@ compteur_terminaison = 0 #Permet de savoir si terminaison a déjà été utilis�
 #------------------------ FIN DES VARIABLES -----------------------#
 #-------------------------- FONCTIONS -----------------------------#
 def menu():
-    """Crée un menu pour jouer, quitter le jeu ou afficher le classement des joueurs.
-    """
-    ax = 250  # Permet de créer le premier bouton
-    bx = 700
-    ay = 350
-    by = 450
+    """Crée un menu pour jouer, quitter le jeu ou afficher le classement des joueurs."""
 
-    ax3 = 250  # Permet de créer le deuxième bouton
-    bx3 = 700
-    ay3 = 650
-    by3 = 750
-    
-    ax2 = 250 # Permet de créer le troisième bouton
-    bx2 = 700
-    ay2 = 800
-    by2 = 900
- 
-    ax4 = 250 # Permet de créer le quatrième bouton
-    bx4 = 700
-    ay4 = 500
-    by4 = 600
-    
-    l1 = bx - ax  # On utlise cette formule pour centrer le texte dans les rectangles
-    l2 = ay - by
+    # Définition des boutons avec leurs coordonnées et labels
+    boutons = [
+        {'coords': (250, 350, 700, 450), 'label': 'Jouer', 'action': 1},
+        {'coords': (250, 800, 700, 900), 'label': 'Quitter', 'action': False},
+        {'coords': (250, 650, 700, 750), 'label': 'Classement', 'action': 2},
+        {'coords': (250, 500, 700, 600), 'label': 'Charger', 'action': 3},
+    ]
 
-    l1_1 = bx2 - ax2
-    l2_2 = by2 - ay2
-    
-    l3 = bx3 - ax3
-    l3_2 = by3 - ay3
+    # Affichage du fond et de l'image
+    rectangle(0, 0, 1000, 1000, couleur='black', remplissage='black', tag='')
+    image(500, 500, 'el.gif', ancrage='center')
 
-    r1 = rectangle(0, 0, 1000, 1000, couleur='black', remplissage='black',tag='')  # Permet de mettre un fond de couleur
-    image(500, 500, 'el.gif', ancrage='center') # Permet de mettre une image dans le menu
-    r2 = rectangle(ax, ay, bx, by, couleur='white', remplissage='grey', epaisseur=5)  # Affichage premier bouton sous forme rectangulaire
-    r3 = texte(ax + l1 / 2, by + l2 / 2, 'Jouer', couleur='black', ancrage='center', police="Purisa", taille=18, tag='')  # Permet d'écrire "Jouer" dans le premier rectangle
-    r4 = rectangle(ax2, ay2, bx2, by2, couleur='white', remplissage='grey', epaisseur=5)  # Affichage deuxième bouton sous forme rectangulaire
-    r5 = texte(ax2 + l1_1 / 2, ay2 + l2_2 / 2, 'Quitter', couleur='black', ancrage='center', police="Purisa", taille=18,tag='')  # Permet d'écrire "Quitter" dans le deuxième rectangle
-    r6 = texte(ax2 + l1_1 / 2, 250, 'Bataille de boules', couleur='white', ancrage='center', police="Purisa", taille=50,tag='') 
-    r7= rectangle(ax3, ay3, bx3, by3, couleur="white", remplissage='grey', epaisseur=5) # Affichage troisième bouton sous forme rectangulaire
-    r8 = texte(ax3 + l3 / 2, ay3 + l3_2 / 2, 'Classement', couleur='black', ancrage='center', police="Purisa", taille=18,tag='') # Permet d'écrire "Classement" dans le deuxième rectangle
-    r9 = rectangle(ax4, ay4, bx4, by4, couleur='white', remplissage='grey',epaisseur=5)  # Affichage quatrième bouton sous forme rectangulaire
-    r10 = texte(ax + l1 / 2, by + 150 + l2 / 2, 'Charger', couleur='black', ancrage='center', police="Purisa", taille=18,tag='')  # Permet d'écrire "Charger" dans le premier rectangle
-    jeu=0 # condition pour le attente clic
-    while jeu == 0:
+    elements = []  # Liste pour stocker les éléments à effacer
+
+    # Affichage des boutons
+    for bouton in boutons:
+        ax, ay, bx, by = bouton['coords']
+        l1, l2 = bx - ax, by - ay
+        elements.append(rectangle(ax, ay, bx, by, couleur='white', remplissage='grey', epaisseur=5))
+        elements.append(texte(ax + l1 / 2, ay + l2 / 2, bouton['label'], couleur='black', ancrage='center', 
+                              police="Purisa", taille=18, tag=''))
+
+    # Affichage du titre
+    elements.append(texte(500, 250, 'Bataille de boules', couleur='white', ancrage='center', 
+                          police="Purisa", taille=50, tag=''))
+
+    while True:
         x, y, t = attente_clic()
-        if ax < x < bx and ay < y < by: #si le clic est dans le bouton jouer.
-            jeu = 1
-            efface(r1)
-            efface(r2)
-            efface(r3)
-            efface(r4)
-            efface(r5)
-            efface(r6)
-            efface(r7)
-            efface(r8)
-            efface(r9)
-            efface(r10)
-            return 1
-        if ax2 < x < bx2 and ay2 < y < by2: #si le clic est dans le bouton quitter.
-            return False
-        if ax3 < x < bx3 and ay3 < y < by3: #si le clic est dans le bouton classement.
-            efface(r1)
-            efface(r2)
-            efface(r3)
-            efface(r4)
-            efface(r5)
-            efface(r6)
-            efface(r7)
-            efface(r8)
-            efface(r9)
-            efface(r10)
-            return 2
-        if ax4 < x < bx4 and ay4 < y < by4:
-            efface(r1)
-            efface(r2)
-            efface(r3)
-            efface(r4)
-            efface(r5)
-            efface(r6)
-            efface(r7)
-            efface(r8)
-            efface(r9)
-            efface(r10)
-            return 3
+
+        for bouton in boutons:
+            ax, ay, bx, by = bouton['coords']
+            if ax < x < bx and ay < y < by:
+                for element in elements:
+                    efface(element)
+                return bouton['action']
 
 
 def verifier_clic_boule(emplacementClic):
@@ -413,49 +366,31 @@ def Scores(couleur_joueur1, couleur_joueur2, Liste_des_pixels):
 
 
 def bouton_jeu(couleur_joueur1, couleur_joueur2):
-    """Fonction permettant de créer les boutons pour pouvoir choisir les variantes que l'on veut (en lien avec la fonction variante()).
+    """Crée les boutons pour choisir les variantes du jeu.
 
     Args:
-        couleur_joueur1 : couleur du joueur 1.
-        couleur_joueur2 : couleur du joueur 2.
+        couleur_joueur1 : Couleur associée au joueur 1.
+        couleur_joueur2 : Couleur associée au joueur 2.
     """
-    cercle_1 = cercle(200, 200, 70, couleur=couleur_joueur1,
-                      remplissage=couleur_joueur1, epaisseur=10, tag='')
-    txt_1 = texte(200, 200, "Sablier", couleur='black',
-                  ancrage='center', police="Purisa", taille=20, tag='')
+    positions = [(200, 200), (500, 200), (800, 200), (200, 500), (500, 500), (800, 500)]
+    textes = ["Sablier", "Obstacle", "Score", "Taille_boules", "Dynamique", "Terminaison"]
+    tailles = [20, 20, 20, 17, 19, 17]
+    couleurs = [couleur_joueur1, couleur_joueur2, couleur_joueur1, couleur_joueur2, couleur_joueur1, couleur_joueur2]
 
-    cercle_2 = cercle(500, 200, 70, couleur=couleur_joueur2,
-                      remplissage=couleur_joueur2, epaisseur=10, tag='')
-    txt_2 = texte(500, 200, "Obstacle", couleur='black',
-                  ancrage='center', police="Purisa", taille=20, tag='')
+    lst_cercle = [
+        cercle(x, y, 70, couleur=couleur, remplissage=couleur, epaisseur=10, tag="")
+        for (x, y), couleur in zip(positions, couleurs)
+    ]
+    lst_txt = [
+        texte(x, y, txt, couleur="black", ancrage="center", police="Purisa", taille=taille, tag="")
+        for (x, y), txt, taille in zip(positions, textes, tailles)
+    ]
 
-    cercle_3 = cercle(800, 200, 70, couleur=couleur_joueur1,
-                      remplissage=couleur_joueur1, epaisseur=10, tag='')
-    txt_3 = texte(800, 200, "Score", couleur='black',
-                  ancrage='center', police="Purisa", taille=20, tag='')
+    lst_x = [x for x, _ in positions]
+    lst_y = [y for _, y in positions]
+    lst_4 = [["blue", couleur_joueur1], [couleur_joueur2, "white"]]
 
-    cercle_4 = cercle(200, 500, 70, couleur=couleur_joueur2,
-                      remplissage=couleur_joueur2, epaisseur=10, tag='')
-    txt_4 = texte(200, 500, "Taille_boules", couleur='black',
-                  ancrage='center', police="Purisa", taille=17, tag='')
-
-    cercle_5 = cercle(500, 500, 70, couleur=couleur_joueur1,
-                      remplissage=couleur_joueur1, epaisseur=10, tag='')
-    txt_5 = texte(500, 500, "Dynamique", couleur='black',
-                  ancrage='center', police="Purisa", taille=19, tag='')
-
-    cercle_6 = cercle(800, 500, 70, couleur=couleur_joueur2,
-                      remplissage=couleur_joueur2, epaisseur=10, tag='')
-    txt_6 = texte(800, 500, "Terminaison", couleur='black',
-                  ancrage='center', police="Purisa", taille=17, tag='')
-
-    lst = [200, 500, 800, 200, 500, 800]
-    lst2 = [200, 200, 200, 500, 500, 500]
-    lst_cercle = [cercle_1, cercle_2, cercle_3, cercle_4, cercle_5, cercle_6]
-    lst_txt = [txt_1, txt_2, txt_3, txt_4, txt_5, txt_6]
-    lst_3 = ['Sablier', 'Obstacle', 'Score','Taille_boules', 'Dynamique', 'Terminaison']
-    lst_4 = [['blue', couleur_joueur1], [couleur_joueur2, 'white']]
-    return lst, lst2, lst_cercle, lst_txt, lst_3, lst_4
+    return lst_x, lst_y, lst_cercle, lst_txt, textes, lst_4
 
 
 def bouton_desactive(x, y, c, txt, noms, couleur):
@@ -498,141 +433,52 @@ def bouton_active(x, y, c, txt, noms):
 
 
 def variante():
-    """Fonction permettant de créer un menu pour pouvoir sélectionner les variantes que l'on veut.
-    """
+    """Crée un menu pour sélectionner les variantes du jeu."""
     efface_tout()
     mise_a_jour()
-    sablier = False
-    obstacles = False
-    score = False
-    taille_boules = False
-    dynamique = False
-    terminaison = False
+    
+    variantes = {
+        "Sablier": False,
+        "Obstacle": False,
+        "Score": False,
+        "Taille_boules": False,
+        "Dynamique": False,
+        "Terminaison": False
+    }
 
+    # Contexte graphique
     rectangle(0, 0, 1000, 1000, remplissage="lightgrey")
     image(530, 350, 'ok.png', ancrage='center')
     x_play, y_play, r_play = bouton_play()
-    lst, lst2, lst_cercle, lst_txt, lst_3, lst_4 = bouton_jeu(couleur_joueur1, couleur_joueur2)
+    lst, lst2, lst_cercle, lst_txt, noms_variantes, couleurs = bouton_jeu(couleur_joueur1, couleur_joueur2)
+
     while True:
         mise_a_jour()
         x, y, t = attente_clic()
+        # Détection du clic sur le bouton "Play"
         if sqrt((x - x_play) ** 2 + (y - y_play) ** 2) <= r_play:
-            return sablier, obstacles, score, taille_boules, dynamique, terminaison
-        for c in range(len(lst_cercle)):
-            if c % 2 == 0:
-                couleur = lst_4[0]
-            else:
-                couleur = lst_4[1]
-            hy = sqrt((x - lst[c]) ** 2 + (y - lst2[c]) ** 2)
-            if hy <= 70:
-                if c == 0:
-                    if t == "ClicGauche":
-                        c5, txt5 = bouton_active(lst[c], lst2[c], lst_cercle[c], lst_txt[c], lst_3[c])
-                        lst_cercle.pop(c)
-                        lst_txt.pop(c)
-                        lst_cercle.insert(c, c5)
-                        lst_txt.insert(c, txt5)
-                        sablier = True
-                    if t == "ClicDroit":
-                        c5, txt5 = bouton_desactive(lst[c], lst2[c], lst_cercle[c], lst_txt[c], lst_3[c], couleur)
-                        lst_cercle.pop(c)
-                        lst_txt.pop(c)
-                        lst_cercle.insert(c, c5)
-                        lst_txt.insert(c, txt5)
-                        sablier = False
-                if c == 1:
-                    if t == "ClicGauche":
-                        c5, txt5 = bouton_active(
-                            lst[c], lst2[c], lst_cercle[c], lst_txt[c], lst_3[c])
-                        lst_cercle.pop(c)
-                        lst_txt.pop(c)
-                        lst_cercle.insert(c, c5)
-                        lst_txt.insert(c, txt5)
-                        obstacles = True
-                    if t == "ClicDroit":
-                        c5, txt5 = bouton_desactive(
-                            lst[c], lst2[c], lst_cercle[c], lst_txt[c], lst_3[c], couleur)
-                        lst_cercle.pop(c)
-                        lst_txt.pop(c)
-                        lst_cercle.insert(c, c5)
-                        lst_txt.insert(c, txt5)
-                        obstacles = False
-                if c == 2:
-                    if t == "ClicGauche":
-                        c5, txt5 = bouton_active(
-                            lst[c], lst2[c], lst_cercle[c], lst_txt[c], lst_3[c])
-                        lst_cercle.pop(c)
-                        lst_txt.pop(c)
-                        lst_cercle.insert(c, c5)
-                        lst_txt.insert(c, txt5)
-                        score = True
-                    if t == "ClicDroit":
-                        c5, txt5 = bouton_desactive(
-                            lst[c], lst2[c], lst_cercle[c], lst_txt[c], lst_3[c], couleur)
-                        lst_cercle.pop(c)
-                        lst_txt.pop(c)
-                        lst_cercle.insert(c, c5)
-                        lst_txt.insert(c, txt5)
-                        score = False
-                if c == 3:
-                    if t == "ClicGauche":
-                        c5, txt5 = bouton_active(
-                            lst[c], lst2[c], lst_cercle[c], lst_txt[c], lst_3[c])
-                        lst_cercle.pop(c)
-                        lst_txt.pop(c)
-                        lst_cercle.insert(c, c5)
-                        lst_txt.insert(c, txt5)
-                        taille_boules = True
-                    if t == "ClicDroit":
-                        c5, txt5 = bouton_desactive(
-                            lst[c], lst2[c], lst_cercle[c], lst_txt[c], lst_3[c], couleur)
-                        lst_cercle.pop(c)
-                        lst_txt.pop(c)
-                        lst_cercle.insert(c, c5)
-                        lst_txt.insert(c, txt5)
-                        taille_boules = False
-                if c == 4:
-                    if t == "ClicGauche":
-                        c5, txt5 = bouton_active(
-                            lst[c], lst2[c], lst_cercle[c], lst_txt[c], lst_3[c])
-                        lst_cercle.pop(c)
-                        lst_txt.pop(c)
-                        lst_cercle.insert(c, c5)
-                        lst_txt.insert(c, txt5)
-                        dynamique = True
-                    if t == "ClicDroit":
-                        c5, txt5 = bouton_desactive(
-                            lst[c], lst2[c], lst_cercle[c], lst_txt[c], lst_3[c], couleur)
-                        lst_cercle.pop(c)
-                        lst_txt.pop(c)
-                        lst_cercle.insert(c, c5)
-                        lst_txt.insert(c, txt5)
-                        dynamique = False
-                if c == 5:
-                    if t == "ClicGauche":
-                        c5, txt5 = bouton_active(
-                            lst[c], lst2[c], lst_cercle[c], lst_txt[c], lst_3[c])
-                        lst_cercle.pop(c)
-                        lst_txt.pop(c)
-                        lst_cercle.insert(c, c5)
-                        lst_txt.insert(c, txt5)
-                        terminaison = True
-                    if t == "ClicDroit":
-                        c5, txt5 = bouton_desactive(
-                            lst[c], lst2[c], lst_cercle[c], lst_txt[c], lst_3[c], couleur)
-                        lst_cercle.pop(c)
-                        lst_txt.pop(c)
-                        lst_cercle.insert(c, c5)
-                        lst_txt.insert(c, txt5)
-                        terminaison = False
+            return tuple(variantes.values())
+
+        # Interaction avec les variantes
+        for i, (cx, cy) in enumerate(zip(lst, lst2)):
+            if sqrt((x - cx) ** 2 + (y - cy) ** 2) <= 70:
+                nom_variante = noms_variantes[i]
+                couleur = couleurs[i % 2]
+                if t == "ClicGauche":
+                    c5, txt5 = bouton_active(cx, cy, lst_cercle[i], lst_txt[i], nom_variante)
+                    variantes[nom_variante] = True
+                elif t == "ClicDroit":
+                    c5, txt5 = bouton_desactive(cx, cy, lst_cercle[i], lst_txt[i], nom_variante, couleur)
+                    variantes[nom_variante] = False
+                # Mise à jour des listes graphiques
+                lst_cercle[i], lst_txt[i] = c5, txt5
+                break
 
 
 def bouton_play():
     """Fonction permettant de créer un bouton "jouer".
     """
-    x = 800
-    y = 700
-    r = 70
+    x, y, r = 800, 700, 70
 
     cercle(x, y, r, couleur='#32CD99', remplissage='#70DB93', epaisseur=10, tag='')
     texte(x, y, "Jouer", couleur='black', ancrage='center', police="Purisa", taille=18, tag='')
@@ -656,151 +502,91 @@ def Terminaisons():
 
 
 def Dynamique_obstacle(EmplacementsJoueur1, EmplacementsJoueur2, obst_a, obst_b, couleur_joueur1, couleur_joueur2):
-    """Fonction permettant d'augmenter le rayon de tous les cercles à la fin du tour même si la variante Obstacles est active. (Variante)
+    """Augmente le rayon des cercles de chaque joueur à la fin du tour, même si la variante Obstacles est active.
 
     Arguments:
-        EmplacementsJoueur1 : Emplacemments des boules du joueur 1.
-        EmplacementsJoueur2 : Emplacemments des boules du joueur 2.
+        EmplacementsJoueur1 : Emplacements des boules du joueur 1.
+        EmplacementsJoueur2 : Emplacements des boules du joueur 2.
         obst_a : Liste contenant les abscisses des obstacles.
-        obst_b : Liste contenant les ordonnées des obstacles
-        couleur_joueur1 : couleur du joueur 1.
-        couleur_joueur2 : couleur du joueur 2.
+        obst_b : Liste contenant les ordonnées des obstacles.
+        couleur_joueur1 : Couleur du joueur 1.
+        couleur_joueur2 : Couleur du joueur 2.
     """
-    if len(EmplacementsJoueur1) != 0:
-        for i in range(len(EmplacementsJoueur1)):
-            EmplacementsJoueurAdversaire = EmplacementsJoueur2
-            couleurBoule = couleur_joueur1
-            x_bd = EmplacementsJoueur1[i][0]
-            y_bd = EmplacementsJoueur1[i][1]
-            rayon_bd = (EmplacementsJoueur1[i][2]+5)
-            if verifierEmplacementClic([x_bd, y_bd], rayon_bd, rectanglePosAX, rectanglePosAY, rectanglePosBX, rectanglePosBY):
-                if verifierIntersection(x_bd, y_bd, rayon_bd, EmplacementsJoueurAdversaire) and inter_obstacle(x_bd, y_bd, rayon_bd, obst_a, obst_b):
-                    efface(Boules_bleu[i])
-                    Boules_bleu.pop(i)
-                    boule_bd = cercle(
-                        x_bd, y_bd, rayon_bd, couleur=couleurBoule, remplissage=couleurBoule, epaisseur=1)
-                    Boules_bleu.append(boule_bd)
-                    EmplacementsJoueur1.pop(i)
-                    EmplacementsJoueur1.append([x_bd, y_bd, rayon_bd])
-    if len(EmplacementsJoueur2) != 0:
-        for i in range(len(EmplacementsJoueur2)):
-            EmplacementsJoueurAdversaire = EmplacementsJoueur1
-            couleurBoule = couleur_joueur2
-            x_bd2 = EmplacementsJoueur2[i][0]
-            y_bd2 = EmplacementsJoueur2[i][1]
-            rayon_bd2 = (EmplacementsJoueur2[i][2]+5)
-            if verifierEmplacementClic([x_bd2, y_bd2], rayon_bd2, rectanglePosAX, rectanglePosAY, rectanglePosBX, rectanglePosBY):
-                if verifierIntersection(x_bd2, y_bd2, rayon_bd2, EmplacementsJoueurAdversaire) and inter_obstacle(x_bd2, y_bd2, rayon_bd2, obst_a, obst_b):
-                    efface(Boules_rouge[i])
-                    Boules_rouge.pop(i)
-                    boule_bd2 = cercle(
-                        x_bd2, y_bd2, rayon_bd2, couleur=couleurBoule, remplissage=couleurBoule, epaisseur=1)
-                    Boules_rouge.append(boule_bd2)
-                    EmplacementsJoueur2.pop(i)
-                    EmplacementsJoueur2.append([x_bd2, y_bd2, rayon_bd2])
+    def mettre_a_jour_boules(emplacements, adversaires, couleur, boules):
+        for i in range(len(emplacements)):
+            x, y, rayon = emplacements[i]
+            nouveau_rayon = rayon + 5
+            if (
+                verifierEmplacementClic([x, y], nouveau_rayon, rectanglePosAX, rectanglePosAY, rectanglePosBX, rectanglePosBY)
+                and verifierIntersection(x, y, nouveau_rayon, adversaires)
+                and inter_obstacle(x, y, nouveau_rayon, obst_a, obst_b)
+            ):
+                efface(boules[i])
+                boules[i] = cercle(x, y, nouveau_rayon, couleur=couleur, remplissage=couleur, epaisseur=1)
+                emplacements[i] = [x, y, nouveau_rayon]
+
+    if EmplacementsJoueur1:
+        mettre_a_jour_boules(EmplacementsJoueur1, EmplacementsJoueur2, couleur_joueur1, Boules_bleu)
+    if EmplacementsJoueur2:
+        mettre_a_jour_boules(EmplacementsJoueur2, EmplacementsJoueur1, couleur_joueur2, Boules_rouge)
+
 
 
 def Dynamique(EmplacementsJoueur1, EmplacementsJoueur2, couleur_joueur1, couleur_joueur2):
-    """Fonction permettant d'augmenter le rayon de tous les cercles à la fin du tour. (Variante)
+    """Augmente le rayon des cercles de chaque joueur à la fin du tour. (Variante)
 
     Arguments:
-        EmplacementsJoueur1 : Emplacemments des boules du joueur 1.
-        EmplacementsJoueur2 : Emplacemments des boules du joueur 2.
-        couleur_joueur1 : couleur du joueur 1.
-        couleur_joueur2 : couleur du joueur 2.
+        EmplacementsJoueur1 : Emplacements des boules du joueur 1.
+        EmplacementsJoueur2 : Emplacements des boules du joueur 2.
+        couleur_joueur1 : Couleur du joueur 1.
+        couleur_joueur2 : Couleur du joueur 2.
     """
-    if len(EmplacementsJoueur1) != 0:
-        for i in range(len(EmplacementsJoueur1)):
-            EmplacementsJoueurAdversaire = EmplacementsJoueur2
-            couleurBoule = couleur_joueur1
-            x_bd = EmplacementsJoueur1[i][0]
-            y_bd = EmplacementsJoueur1[i][1]
-            rayon_bd = (EmplacementsJoueur1[i][2]+5)
-            if verifierEmplacementClic([x_bd, y_bd], rayon_bd, rectanglePosAX, rectanglePosAY, rectanglePosBX, rectanglePosBY):
-                if verifierIntersection(x_bd, y_bd, rayon_bd, EmplacementsJoueurAdversaire):
-                    efface(Boules_bleu[i])
-                    Boules_bleu.pop(i)
-                    boule_bd = cercle(
-                        x_bd, y_bd, rayon_bd, couleur=couleurBoule, remplissage=couleurBoule, epaisseur=1)
-                    Boules_bleu.append(boule_bd)
-                    EmplacementsJoueur1.pop(i)
-                    EmplacementsJoueur1.append([x_bd, y_bd, rayon_bd])
-    if len(EmplacementsJoueur2) != 0:
-        for i in range(len(EmplacementsJoueur2)):
-            EmplacementsJoueurAdversaire = EmplacementsJoueur1
-            couleurBoule = couleur_joueur2
-            x_bd2 = EmplacementsJoueur2[i][0]
-            y_bd2 = EmplacementsJoueur2[i][1]
-            rayon_bd2 = (EmplacementsJoueur2[i][2]+5)
-            if verifierEmplacementClic([x_bd2, y_bd2], rayon_bd2, rectanglePosAX, rectanglePosAY, rectanglePosBX, rectanglePosBY):
-                if verifierIntersection(x_bd2, y_bd2, rayon_bd2, EmplacementsJoueurAdversaire):
-                    efface(Boules_rouge[i])
-                    Boules_rouge.pop(i)
-                    boule_bd2 = cercle(
-                        x_bd2, y_bd2, rayon_bd2, couleur=couleurBoule, remplissage=couleurBoule, epaisseur=1)
-                    Boules_rouge.append(boule_bd2)
-                    EmplacementsJoueur2.pop(i)
-                    EmplacementsJoueur2.append([x_bd2, y_bd2, rayon_bd2])
+    def mettre_a_jour_boules(emplacements, adversaires, couleur, boules):
+        for i in range(len(emplacements)):
+            x, y, rayon = emplacements[i]
+            nouveau_rayon = rayon + 5
+            if (
+                verifierEmplacementClic([x, y], nouveau_rayon, rectanglePosAX, rectanglePosAY, rectanglePosBX, rectanglePosBY)
+                and verifierIntersection(x, y, nouveau_rayon, adversaires)
+            ):
+                efface(boules[i])
+                boules[i] = cercle(x, y, nouveau_rayon, couleur=couleur, remplissage=couleur, epaisseur=1)
+                emplacements[i] = [x, y, nouveau_rayon]
 
+    if EmplacementsJoueur1:
+        mettre_a_jour_boules(EmplacementsJoueur1, EmplacementsJoueur2, couleur_joueur1, Boules_bleu)
+    if EmplacementsJoueur2:
+        mettre_a_jour_boules(EmplacementsJoueur2, EmplacementsJoueur1, couleur_joueur2, Boules_rouge)
 
 def Accueil(LargeurFenetre):
-    """
-    Permet de creer l'écran d'accueil du jeu.
-    
-    Arguments :
-        LargeurFenetre : Largeur de la fenêtre de jeu
-    """
-    polygone([(400, 480), (400, 520), (425, 500)], remplissage='White')
-    polygone([(110, 480), (110, 520), (85, 500)], remplissage='White')
+    """ Permet de creer l'écran d'accueil du jeu. """
+    def dessiner_polygones():
+        """Dessine les flèches sur l'écran."""
+        polygone([(400, 480), (400, 520), (425, 500)], remplissage='White')
+        polygone([(110, 480), (110, 520), (85, 500)], remplissage='White')
+        polygone([(590, 480), (590, 520), (565, 500)], remplissage='White')
+        polygone([(895, 480), (895, 520), (920, 500)], remplissage='White')
 
-    polygone([(590, 480), (590, 520), (565, 500)], remplissage='White')
-    polygone([(895, 480), (895, 520), (920, 500)], remplissage='White')
+    def dessiner_fond():
+        """Dessine l'image de fond de l'écran."""
+        image(0, 0, "el.gif", ancrage="nw")
 
-    lst_col = [cname for cname, hex in matplotlib.colors.cnames.items() if cname != "rebeccapurple"]
+    def dessiner_ecran(i, j):
+        """Dessine l'écran principal avec les couleurs actuelles."""
+        efface_tout()
+        dessiner_fond()
+        dessiner_polygones()
+        texte(LargeurFenetre / 2 - 50, 100, "Bataille d             ",
+              taille=50, ancrage="center", couleur=lst_col[i])
+        texte(LargeurFenetre / 2 - 50, 100, "               e Boules",
+              taille=50, ancrage="center", couleur=lst_col[j])
+        cercle(250, 500, 70, remplissage=str(lst_col[i]))
+        cercle(750, 500, 70, remplissage=str(lst_col[j]))
+        cercle(500, 350, 70, remplissage='#27cc75')
+        texte(500, 350, 'Continuer', ancrage='center', police="Purisa", taille=18, tag='')
 
-    i = 9
-    j = 119
-
-    texte(LargeurFenetre / 2 - 50, 100, "Bataille d             ",taille=50, ancrage="center", couleur=lst_col[i])
-    texte(LargeurFenetre / 2 - 50, 100, "               e Boules",taille=50, ancrage="center", couleur=lst_col[j])
-    cercle(250, 500, 70, remplissage=str(lst_col[i]))
-    cercle(750, 500, 70, remplissage=str(lst_col[j]))
-    cercle(500, 350, 70, remplissage='#27cc75')
-    texte(500, 350, 'Continuer', ancrage='center', police="Purisa", taille=18,tag='')
-    while True:
-        x1, y1, type_clique = attente_clic()
-        if verifierEmplacementClic((x1, y1), 0, 400, 480, 425, 520):
-            if i == len(lst_col) - 1:
-                i = 0
-            else:
-                i += 1
-
-        if verifierEmplacementClic((x1, y1), 0, 85, 480, 110, 520):
-            if i == 0:
-                i = len(lst_col) - 1
-            else:
-                i -= 1
-
-        if verifierEmplacementClic((x1, y1), 0, 565, 480, 590, 520):
-            if j == len(lst_col) - 1:
-                j = 0
-            else:
-                j += 1
-
-        if verifierEmplacementClic((x1, y1), 0, 895, 480, 920, 520):
-            if j == 0:
-                j = len(lst_col) - 1
-            else:
-                j -= 1
-        if verifier_clic_boule2((x1,y1), 70, 500, 350):
-            efface_tout()
-            texte(LargeurFenetre / 2 - 50, 100, "Bataille d             ",
-                  taille=50, ancrage="center", couleur=lst_col[i])
-            texte(LargeurFenetre / 2 - 50, 100, "               e Boules",
-                  taille=50, ancrage="center", couleur=lst_col[j])
-            return lst_col[i], lst_col[j]
-            break
-
+    def verifier_indices(i, j):
+        """Corrige les indices pour qu'ils ne soient pas identiques."""
         if i == j:
             if i == 0:
                 j = len(lst_col) - 1
@@ -808,398 +594,270 @@ def Accueil(LargeurFenetre):
                 j = len(lst_col) - 2
             else:
                 i += 1
-        cercle(250, 500, 70, remplissage=str(lst_col[i]))
-        texte(LargeurFenetre / 2 - 50, 100, "Bataille d             ",
-              taille=50, ancrage="center", couleur=lst_col[i])
-        cercle(750, 500, 70, remplissage=str(lst_col[j]))
-        texte(LargeurFenetre / 2 - 50, 100, "               e Boules",
-              taille=50, ancrage="center", couleur=lst_col[j])
+        return i, j
 
+    def mettre_a_jour_indices(x, y, i, j):
+        """Met à jour les indices de couleur en fonction des clics."""
+        if verifierEmplacementClic((x, y), 0, 400, 480, 425, 520):
+            i = (i + 1) % len(lst_col)
+        elif verifierEmplacementClic((x, y), 0, 85, 480, 110, 520):
+            i = (i - 1) % len(lst_col)
+        elif verifierEmplacementClic((x, y), 0, 565, 480, 590, 520):
+            j = (j + 1) % len(lst_col)
+        elif verifierEmplacementClic((x, y), 0, 895, 480, 920, 520):
+            j = (j - 1) % len(lst_col)
+        return i, j
+    
+    # Liste des couleurs disponibles
+    lst_col = [cname for cname, hex in matplotlib.colors.cnames.items() if cname != "rebeccapurple"]
 
-def pseudo():
-    """Fonction permettant aux utilisateurs de rentrer leur pseudo pour jouer.
-    """
-    rectangle_pseudo=rectangle(100,400,900,600,couleur='black', remplissage='white',epaisseur=10)
-    texte_pseudo=texte(110,410,"Joueur1, veuillez entrer un pseudo (max 25 lettres):", couleur="black", taille=18)
+    # Indices de couleur initiaux
+    i, j = 9, 119
+
+    # Dessiner l'écran initial
+    dessiner_ecran(i, j)
+
+    while True:
+        x, y, type_clique = attente_clic()
+
+        if verifier_clic_boule2((x, y), 70, 500, 350):
+            efface_tout()
+            dessiner_fond()
+            texte(LargeurFenetre / 2 - 50, 100, "Bataille d             ",
+                  taille=50, ancrage="center", couleur=lst_col[i])
+            texte(LargeurFenetre / 2 - 50, 100, "               e Boules",
+                  taille=50, ancrage="center", couleur=lst_col[j])
+            return lst_col[i], lst_col[j]
+
+        i, j = mettre_a_jour_indices(x, y, i, j)
+        i, j = verifier_indices(i, j)
+        dessiner_ecran(i, j)
+        
+def entrer_pseudo(joueur, texte_prompt):
+    """Fonction permettant à un joueur d'entrer un pseudo."""
+    efface(texte_prompt)
+    rectangle_pseudo = rectangle(100, 400, 900, 600, couleur='black', remplissage='white', epaisseur=10)
+    texte_pseudo = texte(110, 410, texte_prompt, couleur="black", taille=18)
     mise_a_jour()
-    compteur_touche_pseudo=1
-    pseudo1=''
-    pseudo2=''
-    touche_pseudo=attente_touche()
-    while touche_pseudo != 'Return':  #Pseudo1
+
+    compteur_touche_pseudo = 1
+    pseudo = ''
+    txt_pseudo = texte(500, 510, str(pseudo), couleur='black', ancrage='center')
+
+    touche_pseudo = attente_touche()
+    while touche_pseudo != 'Return':  # Saisie du pseudo
         if touche_pseudo == 'BackSpace' and compteur_touche_pseudo > 1:
-                pseudo1=pseudo1[:-1]
-                compteur_touche_pseudo-=1
-                efface(txt_pseudo)
-                txt_pseudo=texte(500,510,str(pseudo1),couleur='black', ancrage='center')
-                
-        if touche_pseudo in ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'] and compteur_touche_pseudo < 26:
-            if compteur_touche_pseudo==1:
-                pseudo1+=str(touche_pseudo)
-                txt_pseudo=texte(500,510,str(pseudo1),couleur='black', ancrage='center')
-                compteur_touche_pseudo+=1
-            else:
-                pseudo1+=str(touche_pseudo)
-                efface(txt_pseudo)
-                txt_pseudo=texte(500,510,str(pseudo1),couleur='black', ancrage='center')
-                compteur_touche_pseudo+=1
-                
+            pseudo = pseudo[:-1]
+            compteur_touche_pseudo -= 1
+            efface(txt_pseudo)
+            txt_pseudo = texte(500, 510, str(pseudo), couleur='black', ancrage='center')
+
+        if touche_pseudo in 'abcdefghijklmnopqrstuvwxyz' and compteur_touche_pseudo < 26:
+            pseudo += str(touche_pseudo)
+            efface(txt_pseudo)
+            txt_pseudo = texte(500, 510, str(pseudo), couleur='black', ancrage='center')
+            compteur_touche_pseudo += 1
+
         mise_a_jour()
         touche_pseudo = attente_touche()
-    
+
     efface(texte_pseudo)
     efface(txt_pseudo)
-    compteur_touche_pseudo=1
-    texte_pseudo=texte(110,410,"Joueur2, veuillez entrer un pseudo (max 25 lettres):", couleur="black",taille=18)
-    mise_a_jour()
-    touche_pseudo = attente_touche()
-    while touche_pseudo != 'Return': #Pseudo2
-        if touche_pseudo == 'BackSpace' and compteur_touche_pseudo > 1:
-                pseudo2=pseudo2[:-1]
-                compteur_touche_pseudo-=1
-                efface(txt_pseudo)
-                txt_pseudo=texte(500,510,str(pseudo2),couleur='black', ancrage='center')
-                
-        if touche_pseudo in ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'] and compteur_touche_pseudo < 26:
-            if compteur_touche_pseudo==1:
-                pseudo2+=str(touche_pseudo)
-                txt_pseudo=texte(500,510,str(pseudo2),couleur='black', ancrage='center')
-                compteur_touche_pseudo+=1
-            else:
-                pseudo2+=str(touche_pseudo)
-                efface(txt_pseudo)
-                txt_pseudo=texte(500,510,str(pseudo2),couleur='black', ancrage='center')
-                compteur_touche_pseudo+=1
-                
-        mise_a_jour()
-        touche_pseudo = attente_touche()
-    
-    return (pseudo1, pseudo2)
-    
 
-def Classement():
-    """Fonction permettant d'afficher le classement des 3 meilleurs joueurs ayant joué au jeu. (BONUS)
-    """
+    return pseudo
+
+def pseudo():
+    """Fonction permettant aux utilisateurs de rentrer leur pseudo pour jouer."""
+    texte_pseudo1 = texte(110, 410, "Joueur1, veuillez entrer un pseudo (max 25 lettres):", couleur="black", taille=18)
+    pseudo1 = entrer_pseudo(1, "Joueur1, veuillez entrer un pseudo (max 25 lettres):")
+
+    texte_pseudo2 = texte(110, 410, "Joueur2, veuillez entrer un pseudo (max 25 lettres):", couleur="black", taille=18)
+    pseudo2 = entrer_pseudo(2, "Joueur2, veuillez entrer un pseudo (max 25 lettres):")
+
+    return (pseudo1, pseudo2)
+
+def afficher_bouton_retour():
+    """Affiche un bouton de retour."""
+    ax = 250
+    bx = 700
+    ay = 850
+    by = 950
+    z1 = bx - ax
+    z2 = by - ay
+    bouton_quitter = rectangle(ax, ay, bx, by, couleur='white', remplissage='grey', epaisseur=5)
+    txt_quitter = texte(ax + z1 / 2, ay + z2 / 2, 'Retour', couleur='black', ancrage='center', police="Purisa", taille=18)
+    mise_a_jour()
+    retour = 0
+    while retour == 0:
+        x, y, t = attente_clic()
+        if ax < x < bx and ay < y < by:
+            retour = 1
+
+def extraire_classement():
+    """Extrait les noms et points des joueurs à partir du fichier 'Classement.txt'."""
+    f1 = open('Classement.txt')
+    lst_vainqueur = f1.readlines()
+    f1.close()
+
+    classement = []
+    for ligne in lst_vainqueur:
+        chaine_auxilaire = ''
+        points = ''
+        for caracteres in ligne:
+            if caracteres != ';' and caracteres not in '0123456789':
+                chaine_auxilaire += caracteres
+            elif caracteres != ';' and caracteres in '0123456789':
+                points += caracteres
+        classement.append((chaine_auxilaire, points))
+
+    return classement
+
+def afficher_classement(classement):
+    """Affiche les informations du classement sur l'écran."""
     ax2 = 250
     bx2 = 700
     l1_1 = bx2 - ax2
     image(500, 500, 'el.gif', ancrage='center')
-    classement_txt=texte(ax2 + l1_1 / 2, 250, 'Bataille de boules', couleur='white', ancrage='center', police="Purisa", taille=50,tag='')
-    classement_txt2=texte(ax2 + l1_1 / 2, 320, 'Classement', couleur='white', ancrage='center', police="Purisa", taille=50,tag='')
-    f1=open('Classement.txt')
-    lst_vainqueur=f1.readlines()
-    f1.close()
+    texte(ax2 + l1_1 / 2, 250, 'Bataille de boules', couleur='white', ancrage='center', police="Purisa", taille=50)
+    texte(ax2 + l1_1 / 2, 320, 'Classement', couleur='white', ancrage='center', police="Purisa", taille=50)
+
+def traiter_top_n(classement, n):
+    """Affiche les top n joueurs du classement."""
+    top = []
+    for _ in range(n):
+        max_point = 0
+        top_player = ''
+        for i, (player, points) in enumerate(classement):
+            if int(points) > max_point:
+                max_point = int(points)
+                top_player = player
+                indice = i
+        classement.pop(indice)
+        top.append((top_player, max_point))
     
-    if lst_vainqueur==[]:
-        txt_0=texte(ax2 + l1_1 / 2, 520, 'Pas de joueurs enregistré !', couleur='white', ancrage='center', police="Purisa", taille=18,tag='')
-        ax = 250  # Permet de créer le premier bouton dont les valeurs
-        bx = 700
-        ay = 850
-        by = 950
-        z1= bx - ax
-        z2= by - ay
-        bouton_quitter = rectangle(ax, ay, bx, by, couleur='white', remplissage='grey', epaisseur=5)
-        txt_quitter = texte(ax + z1 / 2, ay + z2 / 2, 'Retour', couleur='black', ancrage='center', police="Purisa", taille=18,tag='')
-        mise_a_jour()
-        retour=0
-        while retour == 0:
-            x, y, t = attente_clic()
-            if ax < x < bx and ay < y < by:
-                retour=1
-    elif len(lst_vainqueur) == 1:
-        Liste_classement=[]
-        for lignes in lst_vainqueur:
-            chaine_auxilaire=''
-            points=''
-            for caracteres in lignes:
-                if caracteres != ';' and caracteres not in ['0','1','2','3','4','5','6','7','8','9']:
-                    chaine_auxilaire+=caracteres
-                elif caracteres != ';' and caracteres in ['0','1','2','3','4','5','6','7','8','9']:
-                    points+=caracteres
-            Liste_classement.append((chaine_auxilaire,points))
-            
-            top1=''
-            point1=0
-
-            for i in range(len(Liste_classement)):
-                if int(Liste_classement[i][1])>point1:
-                    point1=int(Liste_classement[i][1])
-                    top1=Liste_classement[i][0]
-                    indice=i
-            Liste_classement.pop(indice)
-            
-            ax = 350
-            bx = 650
-            ay = 485
-            by = 550
-            z1 = bx - ax
-            z2 = by - ay
-            bouton_top1=rectangle(ax, ay, bx, by, couleur='white', remplissage='goldenrod', epaisseur=5)
-            txt_top1=texte(ax + z1 / 2, ay + z2 / 2, '1er : '+str(top1)+' avec '+str(point1)+' points', couleur='black', ancrage='center', police="Purisa", taille=16,tag='')
-            ax = 250  # Permet de créer le premier bouton dont les valeurs
-            bx = 700
-            ay = 850
-            by = 950
-            z1= bx - ax
-            z2= by - ay
-            bouton_quitter = rectangle(ax, ay, bx, by, couleur='white', remplissage='grey', epaisseur=5)
-            txt_quitter = texte(ax + z1 / 2, ay + z2 / 2, 'Retour', couleur='black', ancrage='center', police="Purisa", taille=18,tag='')
-            mise_a_jour()
-            retour=0
-            while retour == 0:
-                x, y, t = attente_clic()
-                if ax < x < bx and ay < y < by:
-                    retour=1
-            
-    elif len(lst_vainqueur) == 2:
-        Liste_classement=[]
-        for lignes in lst_vainqueur:
-            chaine_auxilaire=''
-            points=''
-            for caracteres in lignes:
-                if caracteres != ';' and caracteres not in ['0','1','2','3','4','5','6','7','8','9']:
-                    chaine_auxilaire+=caracteres
-                elif caracteres != ';' and caracteres in ['0','1','2','3','4','5','6','7','8','9']:
-                    points+=caracteres
-            Liste_classement.append((chaine_auxilaire,points))
-
-        top1=''
-        point1=0
-        top2=''
-        point2=0
-        
-        for i in range(len(Liste_classement)):
-            if int(Liste_classement[i][1])>point1:
-                point1=int(Liste_classement[i][1])
-                top1=Liste_classement[i][0]
-                indice=i
-        Liste_classement.pop(indice)
-        
-        for i in range(len(Liste_classement)):
-            if int(Liste_classement[i][1])>point2:
-                point2=int(Liste_classement[i][1])
-                top2=Liste_classement[i][0]
-                indice=i
-        Liste_classement.pop(indice)
-            
+    # Afficher les top joueurs
+    couleurs = ['goldenrod', 'silver', 'brown']
+    for i, (player, points) in enumerate(top):
         ax = 350
         bx = 650
-        ay = 485
-        by = 550
+        ay = 485 + i * 65
+        by = 550 + i * 65
         z1 = bx - ax
         z2 = by - ay
-        bouton_top1=rectangle(ax, ay, bx, by, couleur='white', remplissage='goldenrod', epaisseur=5)
-        txt_top1=texte(ax + z1 / 2, ay + z2 / 2, '1er : '+str(top1)+' avec '+str(point1)+' points', couleur='black', ancrage='center', police="Purisa", taille=16,tag='')
-        ax = 350
-        bx = 650
-        ay = 550
-        by = 615
-        z1 = bx - ax
-        z2 = by - ay
-        bouton_top2=rectangle(ax, ay, bx, by, couleur='white', remplissage='silver', epaisseur=5)
-        txt_top2=texte(ax + z1 / 2, ay + z2 / 2, '2eme : '+str(top2)+' avec '+str(point2)+' points', couleur='black', ancrage='center', police="Purisa", taille=16,tag='')       
-        ax = 250  # Permet de créer le premier bouton dont les valeurs
-        bx = 700
-        ay = 850
-        by = 950
-        z1= bx - ax
-        z2= by - ay
-        bouton_quitter = rectangle(ax, ay, bx, by, couleur='white', remplissage='grey', epaisseur=5)
-        txt_quitter = texte(ax + z1 / 2, ay + z2 / 2, 'Retour', couleur='black', ancrage='center', police="Purisa", taille=18,tag='')
-        mise_a_jour()
-        retour=0
-        while retour == 0:
-            x, y, t = attente_clic()
-            if ax < x < bx and ay < y < by:
-                retour=1
-            
-    else:      
-        Liste_classement=[]
-        for lignes in lst_vainqueur:
-            chaine_auxilaire=''
-            points=''
-            for caracteres in lignes:
-                if caracteres != ';' and caracteres not in ['0','1','2','3','4','5','6','7','8','9']:
-                    chaine_auxilaire+=caracteres
-                elif caracteres != ';' and caracteres in ['0','1','2','3','4','5','6','7','8','9']:
-                    points+=caracteres
-            Liste_classement.append((chaine_auxilaire,points))
+        bouton_top = rectangle(ax, ay, bx, by, couleur='white', remplissage=couleurs[i], epaisseur=5)
+        txt_top = texte(ax + z1 / 2, ay + z2 / 2, f'{i + 1}er : {player} avec {points} points', couleur='black', ancrage='center', police="Purisa", taille=16)
+    
+    afficher_bouton_retour()
 
-        top1=''
-        point1=0
-        top2=''
-        point2=0
-        top3=''
-        point3=0
-        
-        for i in range(len(Liste_classement)):
-            if int(Liste_classement[i][1])>point1:
-                point1=int(Liste_classement[i][1])
-                top1=Liste_classement[i][0]
-                indice=i
-        Liste_classement.pop(indice)
-        
-        for i in range(len(Liste_classement)):
-            if int(Liste_classement[i][1])>point2:
-                point2=int(Liste_classement[i][1])
-                top2=Liste_classement[i][0]
-                indice=i
-        Liste_classement.pop(indice)
-            
-        for i in range(len(Liste_classement)):
-            if int(Liste_classement[i][1])>point3:
-                point3=int(Liste_classement[i][1])
-                top3=Liste_classement[i][0]
-                indice=i
-        Liste_classement.pop(indice)
-            
-        ax = 350
-        bx = 650
-        ay = 485
-        by = 550
-        z1 = bx - ax
-        z2 = by - ay
-        bouton_top1=rectangle(ax, ay, bx, by, couleur='white', remplissage='goldenrod', epaisseur=5)
-        txt_top1=texte(ax + z1 / 2, ay + z2 / 2, '1er : '+str(top1)+' avec '+str(point1)+' points', couleur='black', ancrage='center', police="Purisa", taille=16,tag='')
-        ax = 200
-        bx = 500
-        ay = 550
-        by = 615
-        z1 = bx - ax
-        z2 = by - ay
-        bouton_top2=rectangle(ax, ay, bx, by, couleur='white', remplissage='silver', epaisseur=5)
-        txt_top2=texte(ax + z1 / 2, ay + z2 / 2, '2eme : '+str(top2)+' avec '+str(point2)+' points', couleur='black', ancrage='center', police="Purisa", taille=16,tag='')
-        ax = 500
-        bx = 800
-        ay = 550
-        by = 615
-        z1 = bx - ax
-        z2 = by - ay
-        bouton_top3=rectangle(ax, ay, bx, by, couleur='white', remplissage='brown', epaisseur=5)
-        txt_top3=texte(ax + z1 / 2, ay + z2 / 2, '3eme : '+str(top3)+' avec '+str(point3)+' points', couleur='black', ancrage='center', police="Purisa", taille=16,tag='')       
-                
-        ax = 250  # Permet de créer le premier bouton dont les valeurs
-        bx = 700
-        ay = 850
-        by = 950
-        z1= bx - ax
-        z2= by - ay
-        bouton_quitter = rectangle(ax, ay, bx, by, couleur='white', remplissage='grey', epaisseur=5)
-        txt_quitter = texte(ax + z1 / 2, ay + z2 / 2, 'Retour', couleur='black', ancrage='center', police="Purisa", taille=18,tag='')
-        mise_a_jour()
-        retour=0
-        while retour == 0:
-            x, y, t = attente_clic()
-            if ax < x < bx and ay < y < by:
-                retour=1
+def Classement():
+    """Fonction permettant d'afficher le classement des 3 meilleurs joueurs ayant joué au jeu."""
+    classement = extraire_classement()
+    
+    # Si le classement est vide
+    if not classement:
+        afficher_classement([])
+        texte(250 + (700 - 250) / 2, 520, 'Pas de joueurs enregistré !', couleur='white', ancrage='center', police="Purisa", taille=18)
+        afficher_bouton_retour()
 
- 
+    # Si 1 joueur
+    elif len(classement) == 1:
+        afficher_classement(classement)
+        traiter_top_n(classement, 1)
+
+    # Si 2 joueurs
+    elif len(classement) == 2:
+        afficher_classement(classement)
+        traiter_top_n(classement, 2)
+
+    # Si 3 ou plus
+    else:
+        afficher_classement(classement)
+        traiter_top_n(classement, 3)
+
+def afficher_bouton(x, y, largeur, hauteur, texte_bouton, couleur_bouton='grey', couleur_texte='black', taille_texte=18):
+    """Affiche un bouton avec le texte et la position donnés."""
+    bx = x + largeur
+    by = y + hauteur
+    l1 = largeur
+    l2 = hauteur
+    rectangle(x, y, bx, by, couleur='white', remplissage=couleur_bouton, epaisseur=5, tag='rect')
+    texte(x + l1 / 2, y + l2 / 2, texte_bouton, couleur=couleur_texte, ancrage='center', police="Purisa", taille=taille_texte, tag='rect')
+    return x, y, bx, by  # Return les coordonnées pour les clics
+
 def pause():
-    """Permet de crée une interface qui va permettre de mettre pause, de reprendre ou de quitter le jeu.
-    """
-    ax = 1000/2 - 100  # Permet de créer le premier bouton dont les valeurs
-    bx = 1000/2 + 100
-    ay = 1000/2 - 150
-    by = 1000/2 - 100
+    """Permet de créer une interface qui va permettre de mettre pause, de reprendre ou de quitter le jeu."""
+    # Position et dimensions des boutons
+    x_centre = 1000 / 2
+    y_centre = 1000 / 2
+    largeur_bouton = 200
+    hauteur_bouton = 50
 
-    ax2 = 1000/2 - 100   # Permet de créer le deuxième bouton dont les valeurs
-    bx2 = 1000/2 + 100
-    ay2 = 1000/2 - 50
-    by2 = 1000/2
+    # Créer le fond
+    rectangle(x_centre - 200, y_centre - 200, x_centre + 200, y_centre + 200, couleur='black', remplissage='grey', tag='rect')
 
-    ax3 = 1000/2 - 100   # Permet de créer le troisième bouton dont les valeurs
-    bx3 = 1000/2 + 100
-    ay3 = 1000/2 + 50
-    by3 = 1000/2 + 100
-
-    l1 = bx - ax  # On utlise cette formule pour centrer le texte dans les rectangles
-    l2 = ay - by
-
-    l1_1 = bx2 - ax2
-    l2_2 = by2 - ay2
-
-    r1 = rectangle(1000/2 - 200, 1000/2 - 200, 1000/2 + 200, 1000/2 + 200, couleur='black', remplissage='grey',
-              tag='rect')
-
-    r2 = rectangle(ax, ay, bx, by, couleur='white', remplissage='grey',
-                   epaisseur=5, tag='rect')  # Affichage premier bouton sous forme rectangulaire
-    r3 = texte(ax + l1 / 2, by + l2 / 2, 'Reprendre', couleur='black', ancrage='center', police="Purisa", taille=18,
-               tag='rect')  # Permet d'écrire "Jouer" dans le premier rectangle
-    r4 = rectangle(ax2, ay2, bx2, by2, couleur='white', remplissage='grey',
-                   epaisseur=5, tag='rect')  # Affichage deuxième bouton sous forme rectangulaire
-    r5 = texte(ax2 + l1_1 / 2, ay2 + l2_2 / 2, 'Sauvegarder', couleur='black', ancrage='center', police="Purisa", taille=18,
-               tag='rect')
-
-    r6 = rectangle(ax3, ay3, bx3, by3, couleur='white', remplissage='grey',
-                   epaisseur=5, tag='rect')
-    r5 = texte(ax3 + l1_1 / 2, ay3 + l2_2 / 2, 'Quitter', couleur='black', ancrage='center', police="Purisa",
-               taille=18,
-               tag='rect')
+    # boutons
+    ax, ay, bx, by = afficher_bouton(x_centre - largeur_bouton / 2, y_centre - 150, largeur_bouton, hauteur_bouton, 'Reprendre')
+    ax2, ay2, bx2, by2 = afficher_bouton(x_centre - largeur_bouton / 2, y_centre - 50, largeur_bouton, hauteur_bouton, 'Sauvegarder')
+    ax3, ay3, bx3, by3 = afficher_bouton(x_centre - largeur_bouton / 2, y_centre + 50, largeur_bouton, hauteur_bouton, 'Quitter')
 
     p = True
     while p:
         x, y, t = attente_clic()
-        if ax < x < bx and ay < y < by:
+        
+        if ax < x < bx and ay < y < by:  # Reprendre
             efface('rect')
             p = False
-        if ax2 < x < bx2 and ay2 < y < by2:
+        elif ax2 < x < bx2 and ay2 < y < by2:  # Sauvegarder
             efface('rect')
             return 'sauvegarde'
-        if ax3 < x < bx3 and ay3 < y < by3:
+        elif ax3 < x < bx3 and ay3 < y < by3:  # Quitter
+            efface('rect')
             return False
-        
 
-def Sauvegarder(sablier, obst, score, taille_boules, dynamique, terminaisons,nbTours, couleur_joueur1, couleur_joueur2, obst_a, obst_b, score_bleu, score_rouge, Budget1, Budget2, pseudo1, pseudo2, Liste_des_pixels):
-    """Fonction permettant de sauvegarder des variables et des structures de données.
+def ecrire_variable(fichier, nom, valeur):
+    """Écrire une variable sous forme clé:valeur dans le fichier."""
+    fichier.write(f"{nom}:{str(valeur)}\n")
+
+def Sauvegarder(sablier, obst, score, taille_boules, dynamique, terminaisons, nbTours, 
+                couleur_joueur1, couleur_joueur2, obst_a, obst_b, score_bleu, score_rouge, 
+                Budget1, Budget2, pseudo1, pseudo2, Liste_des_pixels):
+    """Fonction permettant de sauvegarder des variables et des structures de données."""
     
-    Arguments :
-        sablier : variable contenant False ou True.
-        obst : variable contenant False ou True.
-        score : variable contenant False ou True.
-        taille_boules : variable contenant False ou True.
-        dynamique : variable contenant False ou True.
-        terminaisons : variable contenant False ou True.
-        nbTours : variable contenant le nombre de tours.
-        couleur_joueur1 : chaine de caractère contenant la couleur du joueur 1.
-        couleur_joueur2 : chaine de caractère contenant la couleur du joueur 2.
-        obst_a : Liste contenant les abscisses des obstacles.
-        obst_b : Liste contenant les ordonnées des obstacles
-        score_bleu : variable contenant le score du joueur 1
-        score_rouge : variable contenant le score du joueur 2
-        Budget1 : chaine de caractère contenant le Budget du joueur 1
-        Budget2 : chaine de caractère contenant le Budget du joueur 2
-        pseudo1 : chaine de caractère contenant le pseudo du joueur 1
-        pseudo2 : chaine de caractère contenant le pseudo du joueur 2
-        Liste_des_pixels : Liste contenant tous les pixels du jeu.
-    """
-    with open("save.txt",'w') as fich_s:
-        fich_s.write("EmplacementsJoueur1:"+str(EmplacementsJoueur1)+"\n")
-        fich_s.write("EmplacementsJoueur2:"+str(EmplacementsJoueur2)+"\n")
-        fich_s.write("tourJoueur:" + str(tourJoueur) + "\n")
-        fich_s.write("texte_compteur:" + str(texte_compteur) + "\n")
-        fich_s.write("nbTourReel:" + str(nbTourReel) + "\n")
-        fich_s.write("nbTours:" + str(nbTours) + "\n")
-        fich_s.write("couleur_joueur1:" + str(couleur_joueur1) + "\n")
-        fich_s.write("couleur_joueur2:" + str(couleur_joueur2) + "\n")
-        fich_s.write("sablier:" + str(sablier) + "\n")
-        fich_s.write("dynamique:" + str(dynamique) + "\n")
-        fich_s.write("terminaisons:" + str(terminaisons) + "\n")
-        fich_s.write("obst:" + str(obst) + "\n")
-        fich_s.write("score:" + str(score) + "\n")
-        fich_s.write("taille_boules:" + str(taille_boules) + "\n")
-        fich_s.write("pseudo1:" + str(pseudo1) + "\n")
-        fich_s.write("pseudo2:" + str(pseudo2) + "\n")
-        fich_s.write("Liste_des_pixels:" + str(Liste_des_pixels)+ "\n")
-        if obst:
-            fich_s.write("obst_a:" + str(obst_a) + "\n")
-            fich_s.write("obst_b:" + str(obst_b) + "\n")
-        if score:
-            fich_s.write("score_bleu:" + str(score_bleu) + "\n")
-            fich_s.write("score_rouge:" + str(score_rouge) + "\n")
-        if taille_boules:
-            fich_s.write("Budget1:" + str(Budget1) + "\n")
-            fich_s.write("Budget2:" + str(Budget2) + "\n")
+    # données à sauvegarder
+    donnees = {
+        "EmplacementsJoueur1": EmplacementsJoueur1,
+        "EmplacementsJoueur2": EmplacementsJoueur2,
+        "tourJoueur": tourJoueur,
+        "texte_compteur": texte_compteur,
+        "nbTourReel": nbTourReel,
+        "nbTours": nbTours,
+        "couleur_joueur1": couleur_joueur1,
+        "couleur_joueur2": couleur_joueur2,
+        "sablier": sablier,
+        "dynamique": dynamique,
+        "terminaisons": terminaisons,
+        "obst": obst,
+        "score": score,
+        "taille_boules": taille_boules,
+        "pseudo1": pseudo1,
+        "pseudo2": pseudo2,
+        "Liste_des_pixels": Liste_des_pixels
+    }
 
+    with open("save.txt", 'w') as fich_s:
+        for nom, valeur in donnees.items():
+            ecrire_variable(fich_s, nom, valeur)
+        if obst:
+            ecrire_variable(fich_s, "obst_a", obst_a)
+            ecrire_variable(fich_s, "obst_b", obst_b)
+        
+        if score:
+            ecrire_variable(fich_s, "score_bleu", score_bleu)
+            ecrire_variable(fich_s, "score_rouge", score_rouge)
+        
+        if taille_boules:
+            ecrire_variable(fich_s, "Budget1", Budget1)
+            ecrire_variable(fich_s, "Budget2", Budget2)
 
 def main(sablier, obst, score, taille_boules, dynamique, terminaisons, couleur_joueur1, couleur_joueur2, pseudo1, pseudo2, CompteurG):
     """Fonction principale qui permet d'éxecuter le code principal.
