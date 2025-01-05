@@ -1,3 +1,0 @@
-chams;11992
-elias;8989
-ahmed;10000
